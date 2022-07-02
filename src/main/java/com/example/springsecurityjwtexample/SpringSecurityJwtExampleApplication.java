@@ -32,6 +32,7 @@ public class SpringSecurityJwtExampleApplication {
             userService.saveUser(new User(null, "Name 4", "username4", "password4", emptyList()));
 
             userService.assignRoleToUser("username1", ROLE.ADMIN);
+            userService.assignRoleToUser("username1", ROLE.USER);
             userService.assignRoleToUser("username1", ROLE.SUPER_ADMIN);
         };
     }
