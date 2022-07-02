@@ -27,7 +27,6 @@ public class User {
     private String name;
     private String userName;
     private String password;
-    private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 
