@@ -1,5 +1,6 @@
 package com.example.springsecurityjwtexample;
 
+import com.example.springsecurityjwtexample.domain.ROLE;
 import com.example.springsecurityjwtexample.entity.Role;
 import com.example.springsecurityjwtexample.entity.User;
 import com.example.springsecurityjwtexample.service.UserService;
@@ -20,18 +21,18 @@ public class SpringSecurityJwtExampleApplication {
     @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
-            userService.saveRole(new Role(null, "ROLE_USER"));
-            userService.saveRole(new Role(null, "ROLE_MANAGER"));
-            userService.saveRole(new Role(null, "ROLE_ADMIN"));
-            userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+            userService.saveRole(new Role(null, ROLE.ADMIN));
+            userService.saveRole(new Role(null, ROLE.MANAGER));
+            userService.saveRole(new Role(null, ROLE.SUPER_ADMIN));
+            userService.saveRole(new Role(null, ROLE.USER));
 
-            userService.saveUser(new User(null, "Name 1", "USERNAME 1", "PASSWORD1", emptyList()));
-            userService.saveUser(new User(null, "Name 2", "USERNAME 2", "PASSWORD2", emptyList()));
-            userService.saveUser(new User(null, "Name 3", "USERNAME 3", "PASSWORD3", emptyList()));
-            userService.saveUser(new User(null, "Name 4", "USERNAME 4", "PASSWORD4", emptyList()));
+            userService.saveUser(new User(null, "Name 1", "username1", "password1", emptyList()));
+            userService.saveUser(new User(null, "Name 2", "username2", "password2", emptyList()));
+            userService.saveUser(new User(null, "Name 3", "username3", "password3", emptyList()));
+            userService.saveUser(new User(null, "Name 4", "username4", "password4", emptyList()));
 
-            userService.assignRoleToUser("USERNAME 1", "ROLE_USER");
-            userService.assignRoleToUser("USERNAME 1", "ROLE_MANAGER");
+            userService.assignRoleToUser("username1", ROLE.ADMIN);
+            userService.assignRoleToUser("username1", ROLE.SUPER_ADMIN);
         };
     }
 

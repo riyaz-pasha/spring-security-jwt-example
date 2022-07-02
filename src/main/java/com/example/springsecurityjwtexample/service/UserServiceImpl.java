@@ -1,5 +1,6 @@
 package com.example.springsecurityjwtexample.service;
 
+import com.example.springsecurityjwtexample.domain.ROLE;
 import com.example.springsecurityjwtexample.entity.Role;
 import com.example.springsecurityjwtexample.entity.User;
 import com.example.springsecurityjwtexample.repository.RoleRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void assignRoleToUser(String userName, String roleName) {
+    public void assignRoleToUser(String userName, ROLE roleName) {
         var user = userRepository.findByUserName(userName);
         var role = roleRepository.findByName(roleName);
         log.info("Assigning role {} to the user {}", roleName, userName);
@@ -72,6 +74,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("User {} found", userName);
         var authorities = user.getRoles().stream()
             .map(Role::getName)
+            .map(Objects::toString)
             .map(SimpleGrantedAuthority::new)
             .collect(toList());
         return new org.springframework.security.core.userdetails.User(

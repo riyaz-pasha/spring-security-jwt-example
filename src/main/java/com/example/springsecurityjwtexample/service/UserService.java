@@ -1,5 +1,6 @@
 package com.example.springsecurityjwtexample.service;
 
+import com.example.springsecurityjwtexample.domain.ROLE;
 import com.example.springsecurityjwtexample.entity.Role;
 import com.example.springsecurityjwtexample.entity.User;
 
@@ -10,7 +11,7 @@ public interface UserService {
 
     Role saveRole(Role role);
 
-    void assignRoleToUser(String userName, String roleName);
+    void assignRoleToUser(String userName, ROLE roleName);
 
     User getUser(String userName);
 

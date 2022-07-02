@@ -2,6 +2,8 @@ package com.example.springsecurityjwtexample.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.springsecurityjwtexample.domain.Tokens;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -56,7 +59,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
             .withIssuer(request.getRequestURL().toString())
             .sign(algorithm);
-        response.setHeader("access_token", accessToken);
-        response.setHeader("refresh_token", refreshToken);
+        var tokens = Tokens.builder()
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .build();
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 }

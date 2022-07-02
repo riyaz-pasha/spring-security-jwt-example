@@ -1,9 +1,11 @@
 package com.example.springsecurityjwtexample.config;
 
+import com.example.springsecurityjwtexample.domain.ROLE;
 import com.example.springsecurityjwtexample.filter.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +33,11 @@ public class SecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(STATELESS)
             .and()
-            .authorizeRequests().anyRequest().permitAll()
+            .authorizeRequests().antMatchers("/login/**").permitAll()
+            .and()
+            .authorizeRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority(ROLE.USER.toString())
+            .and()
+            .authorizeRequests().antMatchers(HttpMethod.POST, "/api/users/save/**").hasAnyAuthority(ROLE.ADMIN.toString())
             .and()
             .addFilter(new CustomAuthenticationFilter(authenticationManager))
             .build();

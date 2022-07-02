@@ -1,5 +1,6 @@
 package com.example.springsecurityjwtexample.entity;
 
+import com.example.springsecurityjwtexample.domain.ROLE;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,5 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private ROLE name;
 }
